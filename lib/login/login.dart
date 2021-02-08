@@ -14,8 +14,6 @@ class LoginPage extends StatelessWidget {
     this.context = context;
     this.authService = GetIt.instance<AuthService>();
 
-    waitForAuthToken();
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -23,10 +21,11 @@ class LoginPage extends StatelessWidget {
           "Login",
           style: theme.textTheme.headline1,
         ),
+        Text(authService.accessToken ?? "", style: theme.textTheme.bodyText1),
         Center(
           child: RaisedButton(
             onPressed: loginPressed,
-            child: Text("Steam"),
+            child: Text("Login"),
           ),
         ),
       ],
@@ -35,10 +34,5 @@ class LoginPage extends StatelessWidget {
 
   void loginPressed() {
     authService.loginUser();
-  }
-
-  Future<void> waitForAuthToken() async {
-    await this.authService.accessTokenFuture;
-    Navigator.push(context, MaterialPageRoute(builder: (context) => InventoryPage()));
   }
 }
